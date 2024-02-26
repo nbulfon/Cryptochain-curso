@@ -4,15 +4,19 @@ const cryptoHash = require("./crypto-hash");
 
 describe('Block', () => {
 
-    timestamp = 'a-date';
-    lastHash = 'foo-hash',
-    hash = 'bar-hash',
-    data = ['blockchain', 'data']
+    const timestamp = 'a-date';
+    const lastHash = 'foo-hash';
+    const hash = 'bar-hash';
+    const data = ['blockchain', 'data'];
+    const nonce = 1;
+    const difficulty = 1;
     const block = new Block({
         timestamp,
         lastHash,
         hash,
-        data
+        data,
+        nonce,
+        difficulty
     });
 
     it('[Creacion del bloque]', () => {
@@ -20,6 +24,8 @@ describe('Block', () => {
         expect(block.lastHash).toEqual(lastHash);
         expect(block.hash).toEqual(hash);
         expect(block.data).toEqual(data);
+        expect(block.nonce).toEqual(nonce);
+        expect(block.difficulty).toEqual(difficulty);
     });
 
     describe('BLOQUE GENESIS', () => {
@@ -65,8 +71,18 @@ describe('Block', () => {
         expect(minedBlock.hash)
         .toEqual
         (cryptoHash
-            (minedBlock.timestamp, lastBlock.hash, data)
+            (
+            minedBlock.timestamp,
+            minedBlock.nonce,
+            minedBlock.difficulty,
+            lastBlock.hash,
+            data
+            )
         );
+    });
+    it('sets a ´hash´ that matches the difficulty criteria', () => {
+        expect(minedBlock.hash.substring(0,minedBlock.difficulty))
+        .toEqual('0'.repeat(minedBlock.difficulty));
     });
 });
 });

@@ -3,3 +3,10 @@ para testear en la consola:
 
 node {nombre del file + extension}
 npm run test
+
+---------------------------------------------------------------
+
+Pasos p armar Blockchain:
+1. Armar el modelo/clases/objetos de los bloques,hash,etc.
+2. Armar la capa de la Proof of Work
+3.
