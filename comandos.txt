@@ -1,12 +1,19 @@
 para testear en la consola:
 
 
-node {nombre del file + extension}
-npm run test
+-node {nombre del file + extension}
+-npm run test
+-npm run dev     -> para correr la app en modo debug (con "ireload")
+
+
 
 ---------------------------------------------------------------
 
 Pasos p armar Blockchain:
 1. Armar el modelo/clases/objetos de los bloques,hash,etc.
 2. Armar la capa de la Proof of Work
-3.
+3. Armar la red de blockchains (Blockchain Network),
+ para que todas las intancias de la Blockchain (en cada maquina)
+ interactuen unas con otras, sincronizandose, etc. Lo voy a hacer, implentando una api, 
+ que use sockets (por ej Rabbit, aunque de ser mas complejo tb podria usar signal...).
+ 
