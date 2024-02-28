@@ -5,7 +5,7 @@ para testear en la consola:
 -npm run test
 -npm run dev     -> para correr la app en modo debug (con "ireload")
 
-
+-Acordarse de prender el redis al iniciar
 
 ---------------------------------------------------------------
 
