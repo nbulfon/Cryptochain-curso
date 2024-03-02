@@ -6,20 +6,23 @@
   "scripts": {
     "test": "jest --watchAll",
     "start": "node index.js",
-    "dev": "npm run start redis && nodemon index.js",
-    "start-redis":"redis-server --daemonize yes"
+    "dev": "nodemon index.js",
+    "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "cross-env": "^5.2.0",
     "jest": "^23.6.0",
     "nodemon": "^1.18.4"
   },
   "dependencies": {
+    "amqplib": "^0.10.3",
     "body-parser": "^1.18.3",
-    "express": "^4.13.3",
+    "express": "^4.18.2",
     "hex-to-binary": "^1.0.1",
-    "redis": "^2.8.0"
+    "pubnub": "^4.21.6",
+    "request": "^2.88.0"
   }
 }

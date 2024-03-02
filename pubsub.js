@@ -1,44 +1,96 @@
-const redis = require('redis');
+// //const redis = require('redis');
+// const amqp = require("amqplib/callback_api");
+// const RabbitPubSub = require("./rabbitPubSub");
 
-const CHANNELS = {
-    TEST: 'TEST'
-};
+// const CHANNELS = {
+//   TEST: 'TEST',
+//   BLOCKCHAIN: 'BLOCKCHAIN',
+//   TRANSACTION: 'TRANSACTION'
+// };
 
-/** clase que modela todo lo relacionado al publisher y al suscriber mediante Redis. */
-class PubSub {
-    constructor() {
+// class PubSub {
+//     constructor({ blockchain, transactionPool, rabbitUrl }) {
+//         this.blockchain = blockchain;
+//         this.transactionPool = transactionPool;
+    
+//         // Crear las promesas para obtener los canales
+//         const subscriberPromise = RabbitPubSub.createRabbitClient(rabbitUrl);
+//         const publisherPromise = RabbitPubSub.createRabbitClient(rabbitUrl);
+    
+//         // Esperar a que ambas promesas se resuelvan
+//         Promise.all([subscriberPromise, publisherPromise])
+//           .then(([subscriberChannel, publisherChannel]) => {
+//             this.subscriber = subscriberChannel;
+//             this.publisher = publisherChannel;
+    
+//             this.setupSubscriber();
+    
+//             this.subscriber.on('message', (channel, message) => {
+//               this.handleMessage(channel, message);
+//             });
+//           })
+//           .catch(error => {
+//             console.error('Error connecting to RabbitMQ:', error);
+//           });
+//       }
+//   handleMessage(channel, message) {
+//     console.log(`Message received. Channel: ${channel}. Message: ${message}.`);
 
-        /**
-        * The reason we want both a publisher and a subscriber in one class,
-        * is that we want the pub sub instance to be able to play both roles
-        * in our application. It can be a publisher when it wants to broadcast a
-        * message to all the interested parties in the network. Likewise, as a subscriber,
-        * it should be listening on specific channels for new messages.
-        */
+//     const parsedMessage = JSON.parse(message);
 
+//     switch(channel) {
+//       case CHANNELS.BLOCKCHAIN:
+//         this.blockchain.replaceChain(parsedMessage, true, () => {
+//           this.transactionPool.clearBlockchainTransactions({
+//             chain: parsedMessage
+//           });
+//         });
+//         break;
+//       case CHANNELS.TRANSACTION:
+//         this.transactionPool.setTransaction(parsedMessage);
+//         break;
+//       default:
+//         return;
+//     }
+//   }
 
-        this.publisher = redis.createClient();
-        this.subscriber = redis.createClient();
+//   /** Este método configura la cola y consume los mensajes de la cola especificada. */
+//   setupSubscriber() {
+//     let queueName = 'technical';
+//     this.subscriber.assertQueue(queueName, { durable: false });
+//     this.subscriber.consume(queueName, (msg) => {
+//       console.log(`Received: ${msg.content.toString()}`);
+//       this.subscriber.ack(msg);
+//     });
+//   }
 
-        this.subscriber.subscribe(CHANNELS.TEST);
+//   subscribeToChannels() {
 
-        this.subscriber.on(
-            'message',
-            (channel,message) => this.handleMessage(channel,message)
-            );
-    }
+//     //console.log('SUSCRIBER LOG', this.subscriber);
+    
+//     Object.values(CHANNELS).forEach(channel => {
+//       this.subscriber.subscribe(channel);
+//     });
+//   }
 
+//   publish({ channel, message }) {
+//     this.publisher.publish(channel, JSON.stringify(message));
+//   }
+  
 
-    handleMessage(channel, message) {
+//   broadcastChain() {
+//     this.publish({
+//       channel: CHANNELS.BLOCKCHAIN,
+//       message: JSON.stringify(this.blockchain.chain)
+//     });
+//   }
 
-        console.log(`Message received. Channel: ${channel}. Message: ${message}`);
-    }
-}
+//   broadcastTransaction(transaction) {
+//     this.publish({
+//       channel: CHANNELS.TRANSACTION,
+//       message: JSON.stringify(transaction)
+//     });
+//   }
+// }
 
-
-
-
-const testPubSub = new PubSub();
-setTimeout(() => {
-    testPubSub.publisher.publish(CHANNELS.TEST, 'foo');
-}, 1000);
+// module.exports = PubSub;
