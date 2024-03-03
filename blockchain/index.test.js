@@ -1,6 +1,6 @@
-const BlockChain = require('./blockchain');
+const BlockChain = require('./index');
 const Block = require('./block');
-const cryptoHash = require('./crypto-hash');
+const { cryptoHash } = require('../util');
 
 /** En js , cada 'describe()' es un test. */
 
