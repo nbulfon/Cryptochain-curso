@@ -1,0 +1,20 @@
+Para configurar un intercambio de tipo "fanout" en RabbitMQ, puedes seguir estos pasos:
+
+    Iniciar RabbitMQ: Asegúrate de tener RabbitMQ instalado y en funcionamiento en tu sistema. Puedes descargarlo e instalarlo desde el sitio web oficial si aún no lo tienes.
+
+    Acceder al panel de administración de RabbitMQ: Abre un navegador web y visita la interfaz de administración de RabbitMQ. Por lo general, puedes acceder a ella en http://localhost:15672/ si RabbitMQ está ejecutándose localmente.
+
+    Iniciar sesión en el panel de administración: Inicia sesión en el panel de administración utilizando tus credenciales. El nombre de usuario y la contraseña predeterminados son "guest" y "guest", respectivamente.
+
+    Crear un intercambio de tipo "fanout":
+        Haz clic en la pestaña "Exchanges" en la parte superior de la página.
+        Haz clic en el botón "Add a new exchange".
+        En el formulario de creación de intercambio, especifica los siguientes detalles:
+            Name: Introduce el nombre del intercambio, por ejemplo, "fanout_exchange".
+            Type: Selecciona "fanout" como tipo de intercambio.
+            Deja los demás campos como están o configúralos según tus necesidades.
+        Haz clic en el botón "Add exchange" para crear el intercambio.
+
+    Verificar la creación del intercambio: Una vez creado el intercambio, deberías verlo en la lista de intercambios en la interfaz de administración.
+
+Ahora que has configurado el intercambio de tipo "fanout", puedes utilizarlo en tu aplicación RabbitMQ y vincular las colas que desees a este intercambio para recibir mensajes de él.
