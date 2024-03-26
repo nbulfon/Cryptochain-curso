@@ -5,6 +5,7 @@ const BlockChain = require('./blockchain/index');
 const RabbitPubSub = require('./app/rabbitPubSub');
 const TransactionPool = require('./wallet/transaction-pool');
 const Wallet = require('./wallet');
+const TransactionMiner = require('./app/transaction-miner');
 
 const app = express();
 const blockchain = new BlockChain();
@@ -13,6 +14,11 @@ const wallet = new Wallet();
 const rabbitUrl = "amqp://localhost";
 const pubsub = new RabbitPubSub({
     blockchain, transactionPool, wallet,rabbitUrl});
+
+const transactionMiner = new TransactionMiner({
+    blockchain,transactionPool,wallet,pubSub
+});
+
 
 const DEFAULT_PORT = 5000;
 const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
@@ -79,6 +85,13 @@ app.post('/api/transact', (req, res) => {
 /**get the transaction pool map */
 app.get('/api/transaction-pool-map', (req,res) => {
     res.json(transactionPool.transactionMap);
+});
+
+/** Mine transactions */
+app.get('/api/mine-transactions', (req,res) => {
+    transactionMiner.mineTransactions();
+
+    res.redirect('/api/blocks');
 });
 
 const syncWithRootState = ()  => {

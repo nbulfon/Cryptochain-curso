@@ -14,7 +14,8 @@ class BlockChain {
         this.chain.push(newBlock);
     }
 
-    replaceChain(chain) {
+    /** onSuccess == callback function */
+    replaceChain(chain, onSuccess) {
         if (chain.length <= this.chain.length) {
             console.error('The incoming chain must be longer');
             return;
@@ -25,6 +26,8 @@ class BlockChain {
             return;
         }
 
+        if (onSuccess) onSuccess();
+        
         console.log('replacing chain with: ',chain);
         this.chain = chain;
     }
