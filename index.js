@@ -16,7 +16,7 @@ const pubsub = new RabbitPubSub({
     blockchain, transactionPool, wallet,rabbitUrl});
 
 const transactionMiner = new TransactionMiner({
-    blockchain,transactionPool,wallet,pubSub
+    blockchain,transactionPool,wallet,pubsub
 });
 
 
@@ -96,6 +96,15 @@ app.get('/api/mine-transactions', (req,res) => {
     transactionMiner.mineTransactions();
 
     res.redirect('/api/blocks');
+});
+
+app.get('/api/wallet-info', (req,res) => {
+    
+    const address = wallet.publicKey;
+    res.json({
+        address,
+        balance: Wallet.calculateBalance({chain:blockchain.chain,address})
+    });
 });
 
 const syncWithRootState = ()  => {

@@ -111,7 +111,7 @@ class RabbitPubSub {
         Object.values(CHANNELS).forEach(channel => {
             const queueName = channel;
             this.subscriber.assertQueue(queueName, { durable: false });
-            this.subscriber.bindQueue(queueName, 'fanout_exchange', ''); // Enlazar la cola al intercambio fanout
+            this.subscriber.bindQueue(queueName, 'fanout_cryptochain', ''); // Enlazar la cola al intercambio fanout
         });
     }
     

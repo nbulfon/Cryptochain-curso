@@ -1,5 +1,8 @@
 const Block = require('./block');
 const { cryptoHash } = require('../util');
+const Transaction = require('../wallet/transaction');
+const Wallet = require('../wallet');
+
 
 class BlockChain {
     constructor() {
@@ -31,6 +34,57 @@ class BlockChain {
         console.log('replacing chain with: ',chain);
         this.chain = chain;
     }
+
+    validTransactionData({ chain }) {
+
+        for (let i=1; i<chain.length; i++) {
+
+          const block = chain[i];
+          const transactionSet = new Set();
+          let rewardTransactionCount = 0;
+    
+          for (let transaction of block.data) {
+            if (transaction.input.address === REWARD_INPUT.address) {
+              rewardTransactionCount += 1;
+    
+              if (rewardTransactionCount > 1) {
+                console.error('Miner rewards exceeds limit');
+                return false;
+              }
+    
+              if (Object.values(transaction.outputMap)[0] !== MINING_REWARD) {
+                console.error('Miner reward amount is invalid');
+                return false;
+              }
+            } else {
+              if (!Transaction.validTransaction(transaction)) {
+                console.error('Invalid transaction');
+                return false;
+              }
+    
+              const trueBalance = Wallet.calculateBalance({
+                chain: this.chain,
+                address: transaction.input.address
+              });
+    
+              if (transaction.input.amount !== trueBalance) {
+                console.error('Invalid input amount');
+                return false;
+              }
+    
+              if (transactionSet.has(transaction)) {
+                console.error('An identical transaction appears more than once in the block');
+                return false;
+              } else {
+                transactionSet.add(transaction);
+              }
+            }
+          }
+        }
+    
+        return true;
+      }
+    
 
     static isValidChain(chain) {
         /** importante: comparo los objetos en un JSON.stringify

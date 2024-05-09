@@ -10,7 +10,7 @@ Para configurar un intercambio de tipo "fanout" en RabbitMQ, puedes seguir estos
         Haz clic en la pestaña "Exchanges" en la parte superior de la página.
         Haz clic en el botón "Add a new exchange".
         En el formulario de creación de intercambio, especifica los siguientes detalles:
-            Name: Introduce el nombre del intercambio, por ejemplo, "fanout_exchange".
+            Name: Introduce el nombre del intercambio, por ejemplo, "fanout_cryptochain".
             Type: Selecciona "fanout" como tipo de intercambio.
             Deja los demás campos como están o configúralos según tus necesidades.
         Haz clic en el botón "Add exchange" para crear el intercambio.
